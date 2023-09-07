@@ -1,0 +1,45 @@
+Sub amalgamation()
+'
+' amalgamation Macro
+' To join all the sheets
+'
+' Keyboard Shortcut: Ctrl+g
+    
+    
+    Dim ws As Worksheet
+    Dim lr As Long
+    
+    Dim x As Integer
+'   x is used to iterate over the sheets
+    x = 2
+    
+    For Each ws In Worksheets
+        
+        If x > CInt(Worksheets.Count) Then
+            Exit For
+        End If
+        
+           
+        
+        Sheets("Sheet" & x).Select
+        Range("A1").Select
+        Range(Selection, ActiveCell.SpecialCells(xlLastCell)).Select
+        Selection.Copy
+        Sheets("Sheet1").Select
+        Range("A13").Select
+        lr = Cells(Rows.Count, "A").End(xlUp).Row
+        Range("A" & (lr + 1)).Select
+        ActiveSheet.Paste
+        
+        x = x + 1
+    Next ws
+    
+    x = 2
+    Application.DisplayAlerts = False
+    For Each ws In Worksheets
+        Sheets("Sheet" & x).Delete
+        x = x + 1
+     Next ws
+     Application.DisplayAlerts = True
+    
+End Sub
